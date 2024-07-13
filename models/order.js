@@ -18,12 +18,19 @@ class Order {
         throw error; 
     }
   }
-  static async findAll() {
-    const [rows] = await db.promise().query('SELECT * FROM orders');
-    console.log([rows])
+  // static async findAll() {
+  //   const [rows] = await db.promise().query('SELECT * FROM orders');
+  //   console.log([rows])
 
-    return rows;  
-  }
+  //   return rows;  
+  // }
+    static async findAll() {
+    const [rows] = await db.promise().query('CALL GetAllOrders()');
+    console.log([rows]);
+
+    return rows;
+}
+
 }  
  
 module.exports = Order;
