@@ -10,73 +10,70 @@ servers:
   #   description: NGROK SERVER 
 
 paths:
-
   /auth/register:
     post:
       summary: Register a new user
-      description: Creates a new user account with the provided name, email, and password.
-      consumes:
-        - application/json
-      produces:
-        - application/json
-      parameters:
-        - name: body
-          in: body
-          description: The user information to register
-          required: true
-          schema:
-            $ref: '#/definitions/User'
-      responses:
-        '200':
-          description: User registered successfully
-          schema:
-            type: object
-            properties:
-              message:
-                type: string
-                example: User registered successfully
-              user:
-                $ref: '#/definitions/User'
-        '400':
-          description: Invalid input data
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                example: Invalid email or password
-        '500':
-          description: Server error
-          schema:
-            type: object
-            properties:
-              error:
-                type: string
-                example: Internal server error
-      tags:
-        - Auth
-
-# components:
-#   schemas:
-#     User:
-#       type: object
-#       properties:
-#         name:
-#           type: string
-#         email:
-#           type: string
-#         password:
-#           type: string
-
-  /auth/login:
-    post:
-      summary: Login to the application
+      description: Endpoint to register a new user.
       requestBody:
+        description: User registration data
         required: true
         content:
           application/json:
             schema:
-              $ref: '#/components/schemas/auth'
+              type: object
+              properties:
+                name:
+                  type: string
+                  example: daksh
+                email:
+                  type: string
+                  example: daksh@gmail.com
+                password:
+                  type: string
+                  example: Daksh@123
+      responses:
+        '200':
+          description: Successful registration
+          content:
+            application/json:
+              schema:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                    example: 1
+                  name:
+                    type: string
+                    example: daksh
+                  email:
+                    type: string
+                    example: daksh@gmail.com
+        '400':
+          description: Bad Request
+        '500':
+          description: Internal Server Error
+components:
+  schemas:
+    User:
+      type: object
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+        password:
+          type: string
+paths:          
+  /auth/login:
+    post:
+      summary: User login
+      description: Endpoint to authenticate a user.
+      requestBody:
+        description: User login data
+        required: true
+        content:
+          application/json:   
+            schema:
               type: object
               properties:
                 email:
@@ -95,9 +92,9 @@ paths:
                 properties:
                   token:
                     type: string
-                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9"
-        '401':
-          description: Invalid credentials
+                    example: "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9..."
+        '400':
+          description: Bad Request
           content:
             application/json:
               schema:
@@ -105,137 +102,15 @@ paths:
                 properties:
                   message:
                     type: string
-                    example: "Invalid credentials"
-
-  /products:
-    get:
-      summary: Retrieve the list of products
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: A list of products
-          content:
-            application/json:
-              schema:
-                  $ref: 
-                  type: array
-                    items:
-                  type: object
-                  properties:
-                    id:
-                      type: integer
-                      example: 1
-                    name:
-                      type: string
-                      example: Product Name
-                    price:
-                      type: number
-                      format: float
-                      example: 19.99
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Unauthorized
-
-  components:
-    securitySchemes:
-      bearerAuth:
-        type: http
-        scheme: bearer
-        bearerFormat: JWT
-
-  /auth/users:
-    get:
-      summary: Retrieve the list of users
-      responses:
-        '200':
-          description: A list of users
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/users'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Unauthorized
-
+                    example: "Invalid email or password"
+        '500':
+          description: Internal Server Error
 components:
   schemas:
-    users:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-            example: 1
-          email:
-            type: string
-            example: user@example.com
-          name:
-            type: string
-            example: User Name
-  /orders/all:
-    get:
-      summary: Retrieve the list of all orders
-      security:
-        - bearerAuth: []
-      responses:
-        '200':
-          description: A list of orders
-          content:
-            application/json:
-              schema:
-                $ref: '#/components/schemas/orders'
-        '401':
-          description: Unauthorized
-          content:
-            application/json:
-              schema:
-                type: object
-                properties:
-                  message:
-                    type: string
-                    example: Unauthorized
-
-components:
-  securitySchemes:
-    bearerAuth:
-      type: http
-      scheme: bearer
-      bearerFormat: JWT
-  schemas:
-    orders:
-      type: array
-      items:
-        type: object
-        properties:
-          id:
-            type: integer
-            example: 1
-          product:
-            type: string
-            example: "Product Name"
-          quantity:
-            type: integer
-            example: 2
-          price:
-            type: number
-            format: float
-            example: 19.99
-          status:
-            type: string
-            example: "Delivered"
+    User:
+      type: object
+      properties:
+        email:
+          type: string
+        password:
+          type: string
