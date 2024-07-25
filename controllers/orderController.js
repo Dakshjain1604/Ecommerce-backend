@@ -2,7 +2,7 @@ const Razorpay = require('razorpay');
 const Order = require('../models/order');
 const Product = require('../models/product');
 
- 
+
 // Create a new order (protected route)
 exports.createOrder = async (req, res) => {  
   const { userId,productId, quantity } = req.body;   
@@ -16,21 +16,23 @@ exports.createOrder = async (req, res) => {
       const orderAmount = product.price * quantity;
       const givenOrder=await Order.create(userId,productId,quantity)
       res.json({userId,productId,"message":`order Confirmed`});
-    }  
-
-  } catch (error) {
-    res.status(500).json({ error: error.message });
+    }     
+   
+  } catch (error) {       
+    res.status(500).json({ error: error.message });  
   }
 };
-
 // Get all orders (protected route)
-exports.getAllOrders = async (req, res) => {
-  try {
-    const orders = await Order.findAll();
-    res.json(orders);
+exports.findAllOrder = async (req, res) => {
+  try {     
+    const orders = await Order.findAllOrder();
+    res.json(orders); 
   } catch (error) {
-    res.status(500).json({ error: error.message });
+    res.status(500).json({ error: error.message });   
   }
 };
+   
 
 
+
+        

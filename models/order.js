@@ -24,14 +24,13 @@ class Order {
 
   //   return rows;  
   // }
-    static async findAll() {
+    static async findAllOrder() {
     const [rows] = await db.promise().query('CALL GetAllOrders()');
     console.log([rows]);
-
     return rows;
 }
 
 }  
  
-module.exports = Order;
-       
+module.exports = Order;  
+           

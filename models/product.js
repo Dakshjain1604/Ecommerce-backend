@@ -15,7 +15,7 @@ class Product {
           [name, description, price, stock]
       );
       return result;
-  } 
+    } 
     // static async findById(id) {
     //   const [rows] = await db.promise().query('SELECT * FROM products WHERE id = ?', [id]);
     //   return rows;  
@@ -26,7 +26,7 @@ class Product {
           [id]
       );
       return rows;  
-  }
+    }
   //   static async findAll() {
   //   const [rows] = await db.promise().query('SELECT * FROM products');
   //   return rows;
@@ -34,9 +34,9 @@ class Product {
   static async findAll() {
     const [rows] = await db.promise().query('CALL GetAllProducts()');
     return rows;
-}
+  }
 
-} 
-
+}    
+  
 module.exports = Product;    
   
