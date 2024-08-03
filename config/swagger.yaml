@@ -1,3 +1,4 @@
+
 openapi: 3.0.3
 info:
   title: Orders API
@@ -6,8 +7,8 @@ info:
 servers:
   - url: http://localhost:8080
     description: Local server
-  -url: https://51ed-157-38-115-182.ngrok-free.app 
-    description: ngrok server 
+  - url: https://51ed-157-38-115-182.ngrok-free.app
+    description: ngrok server
 
 paths:
   /orders/create:
@@ -396,6 +397,23 @@ paths:
                     type: string
                     example: "An unexpected error occurred"
 
+  /graphql:
+    post:
+      summary: GraphQL
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/definitions/GraphQLQuery"
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: "#/definitions/GraphQLResponse"
+
 components:
   securitySchemes:
     bearerAuth:
@@ -416,9 +434,15 @@ components:
           example: "Sample Product"
         description:
           type: string
-          example: "This is a sample product."
-        price:
-          type: number
-          format: float
-          example: 19.99
-       
+
+definitions:
+  GraphQLQuery:
+    type: object
+    properties:
+      query:
+        type: string
+  GraphQLResponse:
+    type: object
+    properties:
+      data:
+        type: object

@@ -6,7 +6,6 @@ class Order {
   //     'INSERT INTO orders (user_id, product_id, quantity) VALUES (?, ?, ?)', 
   //     [userId, productId, quantity]
   //   );
-    
   // }
 
     static async create(userId, productId, quantity) {
@@ -33,4 +32,4 @@ class Order {
 }  
  
 module.exports = Order;  
-           
+             

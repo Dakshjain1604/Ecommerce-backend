@@ -31,10 +31,10 @@ class Product {
   //   const [rows] = await db.promise().query('SELECT * FROM products');
   //   return rows;
   // }
-  static async findAll() {
-    const [rows] = await db.promise().query('CALL GetAllProducts()');
-    return rows;
-  }
+    static async findAll() {
+      const [rows] = await db.promise().query('CALL GetAllProducts()');
+      return rows;
+    }
 
 }    
   
