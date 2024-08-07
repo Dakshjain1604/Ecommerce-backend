@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Chat Bot</title>
+</head>
+<body>
+    <div id="chat">
+        <div id="messages"></div>
+        <select id="options">
+            <option value="greet">Greet</option>
+            <option value="bye">Say Goodbye</option>
+            <option value="getProducts">Get Products</option>
+        </select>
+        <button onclick="sendOption()">Send</button>
+    </div>
+
+    <script src="/Socket/socketServer.js"></script>
+    <script src="/Socket/socketClient.js"></script>
+    <script>
+        const socket = io();
+
+        socket.on('botResponse', (response) => {
+            const messages = document.getElementById('messages');
+            if (Array.isArray(response)) {
+                // Handle product list response
+                response.forEach(product => {
+                    messages.innerHTML += `<p>Product: ${product.name} - Price: ${product.price}</p>`;
+                });
+            } else {
+                messages.innerHTML += `<p>${response}</p>`;
+            }
+        });
+
+        function sendOption() {
+            const select = document.getElementById('options');
+            const option = select.value;
+            socket.emit('optionSelected', option);
+        }
+    </script>
+</body>
+</html>

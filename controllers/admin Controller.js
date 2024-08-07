@@ -1,6 +1,6 @@
 const jwt = require('jsonwebtoken');
 const bcrypt = require('bcryptjs');
-const Admin = require('../models/admin'); 
+const Admin = require('../models/admin');
 const express = require('express');
 const router = express.Router();
 router.use(express.json());
@@ -8,15 +8,26 @@ router.use(express.json());
 
 exports.registerAdmin = async (req, res) => {
   const { fullname, adminEmail, adminPassword } = req.body;
-  console.log(fullname,adminEmail,adminPassword);
+  console.log(fullname, adminEmail, adminPassword);
   try {
     if (!fullname || !adminEmail || !adminPassword) {
       return res.status(400).json({ error: 'Please provide all required fields' });
     }
+    function isValidAdminEmail(email) {
+      //email that starts with 'admin'
+      const adminEmailPattern = /^admin[a-zA-Z0-9._%+-]*@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return adminEmailPattern.test(email);
+    }
+
+    if (!isValidAdminEmail(adminEmail)) {
+      res.send('InValid admin email address.');
+    };
+
     const existingUser = await Admin.findByEmail(adminEmail);
     if (existingUser) {
       return res.status(400).json({ error: 'Email already in use' });
     }
+    
     const hashedPassword = await bcrypt.hash(adminPassword, 10);
     const user = await Admin.registeradmin(fullname, adminEmail, hashedPassword);
     res.status(201).json({ id: Admin.insertId, fullname, adminEmail });
@@ -34,7 +45,7 @@ exports.loginAdmin = async (req, res) => {
       return res.status(400).json({ message: "Admin not Found" });
     }
     const isMatch = await bcrypt.compare(adminPassword, admin.adminPassword);
-    console.log(adminPassword,admin.adminPassword)
+    console.log(adminPassword, admin.adminPassword)
     console.log(isMatch)
     if (!isMatch) {
       return res.status(400).json({ message: "Incorrect password" });

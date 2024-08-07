@@ -10,6 +10,15 @@ exports.register = async (req, res) => {
     if (!name || !email || !password) {
       return res.status(400).json({ error: 'Please provide all required fields' });  
     }
+    function isValidEmail(email) {
+      // Regular expression for validating email
+      const emailPattern = /^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,}$/;
+      return emailPattern.test(email);
+  } 
+  // Example usage
+    if (!isValidEmail(email)) {
+        res.status(400).json({message: "InValid email address."}); 
+    }
     const existingUser = await User.findByEmail(email);
     if (existingUser) {
       return res.status(400).json({ error: 'Email already in use' });

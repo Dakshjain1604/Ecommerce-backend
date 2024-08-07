@@ -27,6 +27,8 @@
     "razorpay": "^2.9.4",
     "redis": "^4.6.15",
     "sequelize": "^6.37.3",
+    "socket.io": "^4.7.5",
+    "socket.io-client": "^4.7.5",
     "swagger-jsdoc": "^6.2.8",
     "swagger-ui-express": "^5.0.1",
     "yamljs": "^0.3.0",
